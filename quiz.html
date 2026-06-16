@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>榮格八維「社群陰暗面」人格測驗</title>
     
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9874958587973886" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <meta property="og:title" content="脆癮症報告：社群陰暗面鑑定器">
@@ -84,7 +83,7 @@
         </div>
         <div class="action-btns">
             <button class="btn btn-secondary" onclick="restartQuiz()">再測一次</button>
-            <button class="btn" onclick="saveAsImage()">儲存結果截圖</button>
+            <button class="btn" onclick="saveAsImageAndRedirect()">儲存截圖並前往</button>
         </div>
     </div>
 </div>
@@ -133,9 +132,19 @@
         res.tags.forEach(t => { const s = document.createElement("span"); s.className = "tag"; s.innerText = t; tagsContainer.appendChild(s); });
     }
     function restartQuiz() { currentQuestion = 0; userScores = { Ti: 0, Te: 0, Fi: 0, Fe: 0, Si: 0, Se: 0, Ni: 0, Ne: 0 }; document.getElementById("result-page").style.display = "none"; document.getElementById("start-page").style.display = "block"; }
-    function saveAsImage() { html2canvas(document.getElementById("capture-area"), { backgroundColor: "#141414", scale: 2 }).then(canvas => {
-        const link = document.createElement("a"); link.download = `result.png`; link.href = canvas.toDataURL("image/png"); link.click();
-    }); }
+    
+    function saveAsImageAndRedirect() {
+        html2canvas(document.getElementById("capture-area"), { backgroundColor: "#141414", scale: 2 }).then(canvas => {
+            const link = document.createElement("a");
+            link.download = "my-shadow-type.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+            
+            setTimeout(() => {
+                window.open("https://s.shopee.tw/70Hnm7rQGp", "_blank", "noopener,noreferrer");
+            }, 1000);
+        });
+    }
 </script>
 </body>
 </html>
