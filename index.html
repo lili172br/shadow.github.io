@@ -1,179 +1,101 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9874958587973886"
-     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jungian Archetypes & Shadow Theory | 榮格人格心理學與社群陰暗面研究</title>
+    <title>脆癮症報告：社群陰暗面鑑定器</title>
     
-    <!-- 社群分享預覽卡片 -->
-    <meta property="og:title" content="榮格八維「社群陰暗面」人格鑑定官方網站">
-    <meta property="og:description" content="深入探索潛意識中的陰暗面，解構你在社群網路上的真實人格投影。">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://li172br.github.io/">
+    <!-- 社群分享縮圖設定 -->
+    <meta property="og:title" content="脆癮症鑑定器：你是哪種社群人格？">
+    <meta property="og:description" content="12 題強迫直覺二選一，直擊你潛意識裡最討人厭的社交人格。">
+    <meta property="og:image" content="https://i.postimg.cc/nzv6Jmxf/og-image.png">
+    <meta property="twitter:card" content="summary_large_image">
 
+    <!-- 腳本與樣式 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        :root {
-            --bg-color: #0d0d0d;
-            --text-color: #f5f5f7;
-            --accent-color: #ffffff;
-            --card-bg: #1a1a1a;
-            --gray-text: #8e8e93;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 680px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        header {
-            text-align: center;
-            border-bottom: 1px solid #2c2c2e;
-            padding-bottom: 30px;
-            margin-bottom: 40px;
-        }
-
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: var(--gray-text);
-            font-size: 1.1rem;
-        }
-
-        /* 核心吸睛 CTA 按鈕區區塊 */
-        .cta-section {
-            background: linear-gradient(145deg, #1f1f23, #141416);
-            border: 1px solid #2c2c2e;
-            border-radius: 16px;
-            padding: 30px;
-            text-align: center;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-        }
-
-        .cta-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-top: 0;
-            margin-bottom: 15px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: var(--bg-color);
-            text-decoration: none;
-            padding: 14px 32px;
-            font-weight: 600;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-        }
-
-        .cta-button:hover {
-            transform: scale(1.03);
-            opacity: 0.9;
-        }
-
-        /* 專門用來塞字餵給 Google 機器人看的文章區塊 */
-        .content-section {
-            margin-bottom: 40px;
-        }
-
-        h2 {
-            font-size: 1.4rem;
-            border-left: 3px solid var(--accent-color);
-            padding-left: 12px;
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-
-        p {
-            color: #d1d1d6;
-            font-size: 1rem;
-            margin-bottom: 20px;
-            text-align: justify;
-        }
-
-        ul {
-            padding-left: 20px;
-            color: #d1d1d6;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        footer {
-            text-align: center;
-            color: var(--gray-text);
-            font-size: 0.85rem;
-            margin-top: 60px;
-            border-top: 1px solid #2c2c2e;
-            padding-top: 20px;
-        }
+        :root { --bg-color: #0d0d0d; --card-bg: #1a1a1a; --accent-color: #00ff66; --text-color: #ffffff; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; justify-content: center; min-height: 100vh; padding: 20px; }
+        .container { width: 100%; max-width: 450px; }
+        .btn { background: var(--accent-color); color: #000; border: none; padding: 15px; font-weight: bold; border-radius: 30px; cursor: pointer; width: 100%; margin-top: 15px; transition: 0.2s; }
+        .btn:hover { box-shadow: 0 0 15px var(--accent-color); }
+        
+        #capture-area { background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); border: 2px solid var(--accent-color); padding: 30px; border-radius: 20px; text-align: center; }
+        .result-title { font-size: 1.6rem; color: var(--accent-color); margin: 15px 0; font-weight: 800; }
+        #quiz-page, #result-page { display: none; }
+        .option-btn { background: #222; color: #fff; border: 1px solid #444; padding: 15px; margin: 10px 0; width: 100%; border-radius: 12px; cursor: pointer; text-align: left; }
+        .option-btn:hover { border-color: var(--accent-color); }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>心理學特展：社群陰暗面研究</h1>
-            <div class="subtitle">基於榮格（Carl Jung）原型理論與認知功能指標</div>
-        </header>
-
-        <!-- 亮點：直接引流到你原來的心理測驗網站 -->
-        <section class="cta-section">
-            <p class="cta-title">🔥 榮格八維「社群陰暗面」人格鑑定已正式上線</p>
-            <p style="font-size: 0.9rem; color: var(--gray-text); margin-bottom: 20px;">
-                12 道直覺二選一情境題，解構你隱藏在螢幕背後的潛意識面具。
-            </p>
-            <a href="quiz.html" class="cta-button">立即進入完整測驗 →</a>
-        </section>
-
-        <!-- 關鍵文字內容：充實網站價值，專門給 Google AdSense 審核爬蟲閱讀 -->
-        <section class="content-section">
-            <h2>關於榮格八維（Cognitive Functions）</h2>
-            <p>
-                瑞士心理學家卡爾·榮格（Carl Jung）提出，人類的認知方式可以拆解為四種核心心理功能：內向/外向的思考（Te/Ti）、情感（Fe/Fi）、直覺（Ne/Ni）以及感覺（Se/Si）。這八種功能交互運作，形塑了每個人獨一無二的思維軌跡與行為模式。
-            </p>
-
-            <h2>什麼是「社群陰暗面」（The Social Media Shadow）？</h2>
-            <p>
-                在現代數位生活中，當我們習慣在 Threads、Instagram 等平台表現出「理想中的自我」時，那些被壓抑、不願面對的特質，就會悄悄凝聚成榮格所說的「陰暗面（The Shadow）」。
-            </p>
-            <p>
-                陰暗面並非全然的邪惡，而是未被整合的自我投射。本研究透過當代社群互動行為（如：社群焦慮、資訊恐慌、過度內耗、網路防禦機制），將其與榮格八維的劣勢功能進行交叉比對，幫助現代人在數位洪流中重新找回內在的個體化（Individuation）平衡。
-            </p>
-
-            <h2>本測驗學術與應用範疇</h2>
-            <ul>
-                <li><strong>認知風格評估：</strong> 分析個體在高度數位化環境下的決策偏好。</li>
-                <li><strong>陰暗面投射分析：</strong> 調查使用者在面臨社群演算法、按讚焦慮時的潛意識防禦。</li>
-                <li><strong>社交人格指標：</strong> 提供多維度的性格光譜圖表與日常調適策略建議。</li>
-            </ul>
-        </section>
-
-        <footer>
-            <p>© 2026 Jungian Shadow Test Lab. All Rights Reserved.</p>
-        </footer>
+<div class="container">
+    <!-- 首頁 -->
+    <div id="start-page" style="text-align: center; margin-top: 50px;">
+        <h1>脆癮症報告</h1>
+        <p style="color: #888;">直擊你潛意識裡的社群人格</p>
+        <button class="btn" onclick="startQuiz()">開始偵測狀態</button>
     </div>
 
+    <!-- 測驗頁 -->
+    <div id="quiz-page">
+        <div id="q-num" style="color:var(--accent-color); font-size:0.8rem; margin-bottom:10px;">QUESTION 01</div>
+        <div id="q-text" style="font-size: 1.2rem; margin-bottom: 20px;">載入中...</div>
+        <button class="option-btn" id="opt-A" onclick="selectOption('A')">選項 A</button>
+        <button class="option-btn" id="opt-B" onclick="selectOption('B')">選項 B</button>
+    </div>
+
+    <!-- 結果頁 -->
+    <div id="result-page">
+        <div id="capture-area">
+            <div style="color:var(--accent-color); font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;">社群陰暗面鑑定報告</div>
+            <div id="res-icon" style="font-size: 4rem; margin: 10px 0;">👾</div>
+            <div class="result-title" id="res-title"></div>
+            <div id="res-desc" style="font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px;"></div>
+            <div style="font-size: 0.75rem; opacity: 0.6; border-top: 1px solid #333; padding-top: 10px;">⚠️ 警語：測完請立刻去摸摸草</div>
+        </div>
+        <button class="btn" onclick="saveImage()">儲存海報並分享到脆</button>
+        <button class="btn" style="background:none; border:1px solid #444; color:#fff;" onclick="location.reload()">再測一次</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { text: "在網路上看到有人亂發言，你的直覺是？", a: "Ti", b: "Te", aText: "心裡默默翻白眼，覺得對方沒長腦。", bText: "直接留言開打，或轉發給朋友一起吃瓜。" },
+        { text: "面對人際內耗，你通常會？", a: "Fi", b: "Fe", aText: "退回自己的小世界，完全不想理人。", bText: "過度在意別人的評價，瘋狂腦補。" }
+    ];
+    let cur = 0, scores = { Ti:0, Te:0, Fi:0, Fe:0 };
+
+    function startQuiz() { document.getElementById('start-page').style.display='none'; document.getElementById('quiz-page').style.display='block'; showQ(); }
+    
+    function showQ() {
+        if(cur >= questions.length) { showRes(); return; }
+        document.getElementById('q-text').innerText = questions[cur].text;
+        document.getElementById('opt-A').innerText = questions[cur].aText;
+        document.getElementById('opt-B').innerText = questions[cur].bText;
+    }
+
+    function selectOption(c) {
+        c === 'A' ? scores[questions[cur].a]++ : scores[questions[cur].b]++;
+        cur++; showQ();
+    }
+
+    function showRes() {
+        document.getElementById('quiz-page').style.display='none';
+        document.getElementById('result-page').style.display='block';
+        document.getElementById('res-title').innerText = "【網路偏執槓精】";
+        document.getElementById('res-desc').innerText = "你總能精準找到別人的邏輯漏洞，脆上的 80% 的廢文對你來說都是災難。";
+    }
+
+    function saveImage() {
+        html2canvas(document.getElementById("capture-area"), { backgroundColor: "#000" }).then(canvas => {
+            const link = document.createElement("a");
+            link.download = "我的社群人格.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+            window.open("https://www.threads.net/", "_blank");
+        });
+    }
+</script>
 </body>
 </html>
