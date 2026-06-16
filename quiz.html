@@ -15,10 +15,7 @@
             --text-muted: #888888;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; overflow-x: hidden; }
-        
-        /* 廣告容器：強制固定高度防止排版變形 */
-        .ad-container { width: 100%; max-width: 450px; min-height: 250px; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; background: #1a1a1a; border-radius: 8px; border: 1px solid #333; overflow: hidden; }
+        body { background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
         
         .container { width: 100%; max-width: 450px; background: var(--card-bg); border-radius: 16px; padding: 25px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); border: 1px solid #333; }
         #start-page { text-align: center; padding: 20px 0; }
@@ -53,10 +50,8 @@
 </head>
 <body>
 
-<div class="ad-container">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9874958587973886" data-ad-slot="填入你的廣告插槽ID" data-ad-format="auto" data-full-width-responsive="false"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9874958587973886" data-ad-slot="填入你的廣告插槽ID" data-ad-format="auto" data-full-width-responsive="false"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
 <div class="container">
     <div id="start-page">
