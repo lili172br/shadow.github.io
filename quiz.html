@@ -3,51 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>脆癮症報告：社群陰暗面鑑定器</title>
+    <title>榮格八維「社群陰暗面」人格測驗</title>
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9874958587973886" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <meta property="og:title" content="脆癮症報告：社群陰暗面鑑定器">
     <meta property="og:description" content="12 題強迫直覺二選一，直擊你潛意識裡最討人厭的社交人格。">
     <meta property="og:image" content="https://li172br.github.io/social-preview.png">
-    <meta property="og:url" content="https://li172br.github.io/quiz.html">
-    <meta property="og:type" content="website">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
     <style>
-        :root { --bg-color: #0d0d0d; --card-bg: #1a1a1a; --accent-color: #00ff66; --text-color: #ffffff; }
-        body { background-color: var(--bg-color); color: var(--text-color); display: flex; justify-content: center; padding: 20px; font-family: -apple-system, sans-serif; }
-        .container { width: 100%; max-width: 450px; background: var(--card-bg); border-radius: 16px; padding: 25px; border: 1px solid #333; }
-        #start-page { text-align: center; }
-        .btn { background: var(--accent-color); color: #000; border: none; padding: 14px; border-radius: 30px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 20px; }
+        :root { --bg-color: #0d0d0d; --card-bg: #1a1a1a; --accent-color: #00ff66; --text-color: #ffffff; --text-muted: #888888; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .container { width: 100%; max-width: 450px; background: var(--card-bg); border-radius: 16px; padding: 25px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); border: 1px solid #333; }
+        #start-page { text-align: center; padding: 20px 0; }
+        h1 { font-size: 1.8rem; margin-bottom: 15px; color: var(--accent-color); text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; }
+        .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 35px; line-height: 1.6; }
+        .btn { background: var(--accent-color); color: #000; border: none; padding: 14px 32px; font-size: 1rem; font-weight: bold; border-radius: 30px; cursor: pointer; transition: all 0.2s ease; width: 100%; }
+        .btn:hover { transform: scale(1.02); box-shadow: 0 0 15px var(--accent-color); }
         #quiz-page, #result-page { display: none; }
-        .option-btn { background: #252525; color: white; border: 1px solid #444; padding: 15px; margin: 10px 0; width: 100%; border-radius: 10px; cursor: pointer; text-align: left; }
+        .progress-container { width: 100%; background: #333; height: 6px; border-radius: 3px; margin-bottom: 25px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: width 0.3s ease; }
+        .question-num { color: var(--accent-color); font-size: 0.85rem; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
+        .question-text { font-size: 1.15rem; font-weight: 600; line-height: 1.5; margin-bottom: 30px; min-height: 60px; }
+        .options { display: flex; flex-direction: column; gap: 15px; }
+        .option-btn { background: #252525; color: var(--text-color); border: 1px solid #444; padding: 16px; font-size: 0.95rem; border-radius: 10px; cursor: pointer; text-align: left; line-height: 1.5; transition: all 0.2s ease; }
+        .option-btn:hover { background: #333; border-color: var(--accent-color); }
+        .result-card { background: #141414; border: 2px solid var(--accent-color); border-radius: 12px; padding: 25px 20px; margin-bottom: 20px; text-align: center; }
+        .result-tag { color: var(--accent-color); font-size: 0.85rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px; }
+        .result-icon { font-size: 3.5rem; margin-bottom: 10px; display: block; filter: drop-shadow(0 0 10px rgba(0, 255, 102, 0.2)); }
+        .result-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; color: #fff; }
+        .result-percentage { font-size: 0.95rem; color: #aaa; margin-bottom: 20px; }
+        .result-percentage strong { color: var(--accent-color); font-size: 1.2rem; font-weight: 800; }
+        .tags-container { display: flex; justify-content: center; gap: 6px; margin-bottom: 25px; flex-wrap: wrap; }
+        .tag { background: rgba(0, 255, 102, 0.08); color: var(--accent-color); padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; border: 1px solid rgba(0, 255, 102, 0.25); }
+        .result-desc { font-size: 0.95rem; line-height: 1.6; color: #ddd; text-align: left; margin-bottom: 20px; background: #1f1f1f; padding: 18px; border-radius: 10px; border-left: 3px solid var(--accent-color); }
+        .desc-label { color: var(--accent-color); font-weight: bold; display: block; margin-bottom: 4px; font-size: 0.9rem; }
+        .match-box { display: flex; flex-direction: column; gap: 8px; background: #0d0d0d; padding: 15px; border-radius: 8px; font-size: 0.85rem; border: 1px solid #222; text-align: left; }
+        .watermark { margin-top: 20px; font-size: 0.75rem; color: var(--text-muted); letter-spacing: 1px; }
+        .action-btns { display: flex; gap: 10px; }
+        .btn-secondary { background: #252525; color: #fff; border: 1px solid #444; }
     </style>
 </head>
 <body>
+
 <div class="container">
     <div id="start-page">
-        <h1>脆癮症報告</h1>
-        <p>12 題強迫直覺二選一，直擊你潛意識裡最討人厭的社交人格。</p>
+        <h1>社群陰暗面<br>榮格八維鑑定器</h1>
+        <p class="subtitle">Threads 深度中毒者、網路樂子人、還是隱形內耗鬼？12 題強迫直覺二選一，直擊你潛意識裡最討人厭的社交人格。</p>
         <button class="btn" onclick="startQuiz()">開始偵測狀態</button>
     </div>
 
     <div id="quiz-page">
-        <div id="q-text" style="margin-bottom: 20px; font-weight: bold; font-size: 1.2rem;"></div>
-        <button class="option-btn" id="opt-A" onclick="selectOption('A')"></button>
-        <button class="option-btn" id="opt-B" onclick="selectOption('B')"></button>
+        <div class="progress-container"><div class="progress-bar" id="progress"></div></div>
+        <div class="question-num" id="q-num">QUESTION 01</div>
+        <div class="question-text" id="q-text">載入中...</div>
+        <div class="options">
+            <button class="option-btn" id="opt-A" onclick="selectOption('A')"></button>
+            <button class="option-btn" id="opt-B" onclick="selectOption('B')"></button>
+        </div>
     </div>
 
     <div id="result-page">
-        <div id="capture-area" style="background:#141414; padding:25px; border:2px solid #00ff66; border-radius:12px; text-align:center;">
-            <div id="res-title" style="font-size:1.5rem; font-weight:bold; margin-bottom:15px; color:#fff;">【鑑定結果報告】</div>
-            <div id="res-desc" style="font-size:0.95rem; color:#ddd; line-height:1.6;">分析完成，請下載結果圖。</div>
+        <div class="result-card" id="capture-area">
+            <div class="result-tag">MY SHADOW TYPE</div>
+            <span class="result-icon" id="res-icon">👾</span>
+            <div class="result-title" id="res-title">偵測中...</div>
+            <div class="result-percentage">全網目前有 <strong id="res-percent">0%</strong> 的人跟你一樣發瘋</div>
+            <div class="tags-container" id="res-tags"></div>
+            <div class="result-desc">
+                <div><span class="desc-label">💡 潛意識面貌</span><span id="desc-core"></span></div>
+                <div style="margin-top:10px;"><span class="desc-label">💥 脆上發作症狀</span><span id="desc-symptom"></span></div>
+            </div>
+            <div class="match-box">
+                <div>🤝 大吉契合：<span id="res-good">-</span></div>
+                <div>⚡ 天敵死對頭：<span id="res-bad">-</span></div>
+            </div>
+            <div class="watermark">⚠️ 警語：請立刻關掉手機去摸摸草</div>
         </div>
-        
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9874958587973886" data-ad-slot="YOUR_AD_SLOT_ID" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-
-        <button class="btn" onclick="saveAsImageAndRedirect()">儲存結果截圖並領取優惠</button>
+        <div class="action-btns">
+            <button class="btn btn-secondary" onclick="restartQuiz()">再測一次</button>
+            <button class="btn" onclick="saveAsImage()">儲存結果截圖</button>
+        </div>
     </div>
 </div>
 
@@ -67,35 +105,37 @@
         { type: "N", aScore: "Ne", bScore: "Ni", text: "看到別人發了一篇語氣很酸、但沒有指名道姓的「黑名單抱怨文」，你會？", aText: "覺得跟自己無關，純粹當成別人的生活碎念，看過就忘。", bText: "開始對號入座，懷疑對方是不是在暗諷自己，或瘋狂猜測他在罵誰。" }
     ];
 
-    let currentQuestion = 0;
-    let userScores = { Ti:0, Te:0, Fi:0, Fe:0, Si:0, Se:0, Ni:0, Ne:0 };
+    const results = {
+        "Ti_Ni": { title: "網路偏執槓精", icon: "🤖", tags: ["#解字代表", "#邏輯糾察隊", "#內心翻白眼達人"], core: "在社群上自帶高傲的清高感。看到錯字、沒邏輯的言論、或是盲目跟風的潮流會極度煩躁。", symptom: "滑到熱門貼文不自覺想去糾正別人；或者打了一大串反駁文，最後覺得「算了跟笨蛋講不通」又默默刪掉。", good: "社群冷漠巨嬰", bad: "伸手黨", basePercent: 8 },
+        "Fe_Se": { title: "社群冷漠巨嬰", icon: "🤡", tags: ["#已讀亂回", "#吃瓜第一線", "#跟風大師"], core: "表面隨和好相處，內心極度懶惰敷衍。在網路上看大家吵架會覺得「好爽、多打一點」，是標準的樂子人。", symptom: "沒有自己的立場，風向往哪吹你就往哪倒。其實很在乎讚數，發文沒人理會會偷偷難過。", good: "網路偏執槓精", bad: "極端正義魔人", basePercent: 42 },
+        "Fi_Si": { title: "孤傲自嗨邊緣人", icon: "🖤", tags: ["#小眾冷門控", "#小帳限定", "#深夜限定emo"], core: "深度活在自己的精神世界裡，自帶一種「沒有人真正懂我」的敏感文青病。", symptom: "習慣發一些只有自己看得懂的密碼學貼文。貼文太多人按讚反而會驚慌，覺得秘密基地被笨蛋入侵。", good: "網路偏執槓精", bad: "沒邊界感的社牛", basePercent: 14 },
+        "Ne_Ni": { title: "深淵腦補內耗體", icon: "🌪️", tags: ["#資訊焦慮症", "#陰謀論大師", "#注意力剩3秒"], core: "大腦是一台24小時不關機的瘋狂發電機。習慣看到黑影就開槍，朋友限動少發一個貼圖就能腦補出一場背叛恩怨大戲。", symptom: "瘋狂刷脆深怕漏掉大瓜。看到別人抱怨文就對號入座「他是不是在影射我？」", good: "網路偏執槓精", bad: "斷章取義狂", basePercent: 28 }
+    };
 
-    function startQuiz() { document.getElementById('start-page').style.display = 'none'; document.getElementById('quiz-page').style.display = 'block'; showQ(); }
-    function showQ() {
-        if(currentQuestion >= questions.length) { calculateResult(); return; }
-        const q = questions[currentQuestion];
-        document.getElementById('q-text').innerText = q.text;
-        document.getElementById('opt-A').innerText = q.aText;
-        document.getElementById('opt-B').innerText = q.bText;
+    let currentQuestion = 0, userScores = { Ti: 0, Te: 0, Fi: 0, Fe: 0, Si: 0, Se: 0, Ni: 0, Ne: 0 };
+    function startQuiz() { document.getElementById("start-page").style.display = "none"; document.getElementById("quiz-page").style.display = "block"; showQ(); }
+    function showQ() { if (currentQuestion >= questions.length) { calculateResult(); return; }
+        const q = questions[currentQuestion]; document.getElementById("progress").style.width = ((currentQuestion / questions.length) * 100) + "%";
+        document.getElementById("q-num").innerText = `QUESTION ${String(currentQuestion + 1).padStart(2, '0')}`;
+        document.getElementById("q-text").innerText = q.text; document.getElementById("opt-A").innerText = q.aText; document.getElementById("opt-B").innerText = q.bText;
     }
-    function selectOption(c) {
-        const q = questions[currentQuestion];
-        if(c === 'A') userScores[q.aScore]++; else userScores[q.bScore]++;
-        currentQuestion++; showQ();
+    function selectOption(c) { const q = questions[currentQuestion]; if (c === 'A') userScores[q.aScore]++; else userScores[q.bScore]++; currentQuestion++; showQ(); }
+    function calculateResult() { document.getElementById("quiz-page").style.display = "none"; document.getElementById("result-page").style.display = "block";
+        let resultKey = "Fe_Se", rawWeight = userScores.Fe + userScores.Se;
+        if (userScores.Ti + userScores.Ni > userScores.Te + userScores.Ne) { resultKey = "Ti_Ni"; rawWeight = userScores.Ti + userScores.Ni; }
+        else if (userScores.Fi + userScores.Si > userScores.Fe + userScores.Se) { resultKey = "Fi_Si"; rawWeight = userScores.Fi + userScores.Si; }
+        else if (userScores.Ne + userScores.Ni > 4) { resultKey = "Ne_Ni"; rawWeight = userScores.Ne + userScores.Ni; }
+        const res = results[resultKey]; const finalPercent = res.basePercent + (rawWeight % 3) + Math.floor(Math.random() * 3);
+        document.getElementById("res-icon").innerText = res.icon; document.getElementById("res-title").innerText = `【${res.title}】`;
+        document.getElementById("res-percent").innerText = `${finalPercent}%`; document.getElementById("desc-core").innerText = res.core;
+        document.getElementById("desc-symptom").innerText = res.symptom; document.getElementById("res-good").innerText = res.good; document.getElementById("res-bad").innerText = res.bad;
+        const tagsContainer = document.getElementById("res-tags"); tagsContainer.innerHTML = "";
+        res.tags.forEach(t => { const s = document.createElement("span"); s.className = "tag"; s.innerText = t; tagsContainer.appendChild(s); });
     }
-    function calculateResult() {
-        document.getElementById('quiz-page').style.display = 'none';
-        document.getElementById('result-page').style.display = 'block';
-    }
-    function saveAsImageAndRedirect() {
-        html2canvas(document.getElementById('capture-area'), { backgroundColor: "#141414", scale: 2 }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = "社群陰暗面結果.png";
-            link.href = canvas.toDataURL("image/png");
-            link.click();
-            window.open("https://s.shopee.tw/8V6bOlaro8", "_blank");
-        });
-    }
+    function restartQuiz() { currentQuestion = 0; userScores = { Ti: 0, Te: 0, Fi: 0, Fe: 0, Si: 0, Se: 0, Ni: 0, Ne: 0 }; document.getElementById("result-page").style.display = "none"; document.getElementById("start-page").style.display = "block"; }
+    function saveAsImage() { html2canvas(document.getElementById("capture-area"), { backgroundColor: "#141414", scale: 2 }).then(canvas => {
+        const link = document.createElement("a"); link.download = `result.png`; link.href = canvas.toDataURL("image/png"); link.click();
+    }); }
 </script>
 </body>
 </html>
