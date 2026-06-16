@@ -5,296 +5,60 @@
      crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>榮格八維「社群陰暗面」人格測驗</title>
-    <!-- 引入 html2canvas 實現一鍵儲存圖片功能 -->
+    <title>脆癮症報告：社群陰暗面鑑定器</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --bg-color: #0d0d0d;
             --card-bg: #1a1a1a;
-            --accent-color: #00ff66; /* 螢光綠 */
+            --accent-color: #00ff66;
             --text-color: #ffffff;
             --text-muted: #888888;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 450px;
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            border: 1px solid #333;
-        }
-
-        /* 歡迎頁面 */
-        #start-page {
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: var(--accent-color);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            line-height: 1.3;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 35px;
-            line-height: 1.6;
-        }
-
-        .btn {
-            background: var(--accent-color);
-            color: #000;
-            border: none;
-            padding: 14px 32px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 100%;
-        }
-
-        .btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 15px var(--accent-color);
-        }
-
-        /* 測驗頁面 */
-        #quiz-page {
-            display: none;
-        }
-
-        .progress-container {
-            width: 100%;
-            background: #333;
-            height: 6px;
-            border-radius: 3px;
-            margin-bottom: 25px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: var(--accent-color);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .question-num {
-            color: var(--accent-color);
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .question-text {
-            font-size: 1.15rem;
-            font-weight: 600;
-            line-height: 1.5;
-            margin-bottom: 30px;
-            min-height: 60px;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .option-btn {
-            background: #252525;
-            color: var(--text-color);
-            border: 1px solid #444;
-            padding: 16px;
-            font-size: 0.95rem;
-            border-radius: 10px;
-            cursor: pointer;
-            text-align: left;
-            line-height: 1.5;
-            transition: all 0.2s ease;
-        }
-
-        .option-btn:hover {
-            background: #333;
-            border-color: var(--accent-color);
-        }
-
-        /* 結果頁面 */
-        #result-page {
-            display: none;
-        }
-
-        /* 用於截圖的區塊 */
-        .result-card {
-            background: #141414;
-            border: 2px solid var(--accent-color);
-            border-radius: 12px;
-            padding: 25px 20px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .result-tag {
-            color: var(--accent-color);
-            font-size: 0.85rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-        }
-
-        /* 人格小圖示樣式 */
-        .result-icon {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            display: block;
-            filter: drop-shadow(0 0 10px rgba(0, 255, 102, 0.2));
-        }
-
-        .result-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-            color: #fff;
-        }
-
-        /* %數統計樣式 */
-        .result-percentage {
-            font-size: 0.95rem;
-            color: #aaa;
-            margin-bottom: 20px;
-        }
-        .result-percentage strong {
-            color: var(--accent-color);
-            font-size: 1.2rem;
-            font-weight: 800;
-        }
-
-        .tags-container {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            background: rgba(0, 255, 102, 0.08);
-            color: var(--accent-color);
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            border: 1px solid rgba(0, 255, 102, 0.25);
-        }
-
-        /* 條列式排版整理 */
-        .result-desc {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #ddd;
-            text-align: left;
-            margin-bottom: 20px;
-            background: #1f1f1f;
-            padding: 18px;
-            border-radius: 10px;
-            border-left: 3px solid var(--accent-color);
-        }
-
-        .desc-section {
-            margin-bottom: 12px;
-        }
-        .desc-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .desc-label {
-            color: var(--accent-color);
-            font-weight: bold;
-            display: block;
-            margin-bottom: 4px;
-            font-size: 0.9rem;
-        }
-
-        .match-box {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            background: #0d0d0d;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            border: 1px solid #222;
-            text-align: left;
-        }
-
-        .match-item span {
-            color: var(--accent-color);
-            font-weight: bold;
-        }
-
-        .watermark {
-            margin-top: 20px;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-        }
-
-        .action-btns {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-secondary {
-            background: #252525;
-            color: #fff;
-            border: 1px solid #444;
-        }
-        .btn-secondary:hover {
-            background: #333;
-            box-shadow: none;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .container { width: 100%; max-width: 450px; background: var(--card-bg); border-radius: 16px; padding: 25px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); border: 1px solid #333; }
+        #start-page { text-align: center; padding: 20px 0; }
+        h1 { font-size: 1.8rem; margin-bottom: 15px; color: var(--accent-color); text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; }
+        .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 35px; line-height: 1.6; }
+        .btn { background: var(--accent-color); color: #000; border: none; padding: 14px 32px; font-size: 1rem; font-weight: bold; border-radius: 30px; cursor: pointer; transition: all 0.2s ease; width: 100%; }
+        .btn:hover { transform: scale(1.02); box-shadow: 0 0 15px var(--accent-color); }
+        #quiz-page, #result-page { display: none; }
+        .progress-container { width: 100%; background: #333; height: 6px; border-radius: 3px; margin-bottom: 25px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: width 0.3s ease; }
+        .question-num { color: var(--accent-color); font-size: 0.85rem; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
+        .question-text { font-size: 1.15rem; font-weight: 600; line-height: 1.5; margin-bottom: 30px; min-height: 60px; }
+        .options { display: flex; flex-direction: column; gap: 15px; }
+        .option-btn { background: #252525; color: var(--text-color); border: 1px solid #444; padding: 16px; font-size: 0.95rem; border-radius: 10px; cursor: pointer; text-align: left; transition: all 0.2s ease; }
+        .option-btn:hover { background: #333; border-color: var(--accent-color); }
+        .result-card { background: #141414; border: 2px solid var(--accent-color); border-radius: 12px; padding: 25px 20px; margin-bottom: 20px; text-align: center; }
+        .result-tag { color: var(--accent-color); font-size: 0.85rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px; }
+        .result-icon { font-size: 3.5rem; margin-bottom: 10px; display: block; filter: drop-shadow(0 0 10px rgba(0, 255, 102, 0.2)); }
+        .result-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; color: #fff; }
+        .result-percentage { font-size: 0.95rem; color: #aaa; margin-bottom: 20px; }
+        .result-percentage strong { color: var(--accent-color); font-size: 1.2rem; font-weight: 800; }
+        .tags-container { display: flex; justify-content: center; gap: 6px; margin-bottom: 25px; flex-wrap: wrap; }
+        .tag { background: rgba(0, 255, 102, 0.08); color: var(--accent-color); padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; border: 1px solid rgba(0, 255, 102, 0.25); }
+        .result-desc { font-size: 0.95rem; line-height: 1.6; color: #ddd; text-align: left; margin-bottom: 20px; background: #1f1f1f; padding: 18px; border-radius: 10px; border-left: 3px solid var(--accent-color); }
+        .desc-label { color: var(--accent-color); font-weight: bold; display: block; margin-bottom: 4px; font-size: 0.9rem; }
+        .match-box { display: flex; flex-direction: column; gap: 8px; background: #0d0d0d; padding: 15px; border-radius: 8px; font-size: 0.85rem; border: 1px solid #222; text-align: left; }
+        .match-item span { color: var(--accent-color); font-weight: bold; }
+        .watermark { margin-top: 20px; font-size: 0.75rem; color: var(--text-muted); letter-spacing: 1px; }
+        .action-btns { display: flex; gap: 10px; }
+        .btn-secondary { background: #252525; color: #fff; border: 1px solid #444; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- 1. 歡迎頁面 -->
     <div id="start-page">
-        <h1>社群陰暗面<br>榮格八維鑑定器</h1>
-        <p class="subtitle">Threads 深度中毒者、網路樂子人、還是隱形內耗鬼？12 題強迫直覺二選一，直擊你潛意識裡最討人厭的社交人格。</p>
+        <h1>脆癮症報告<br>社群陰暗面鑑定器</h1>
+        <p class="subtitle">12 題強迫直覺二選一，直擊你潛意識裡最討人厭的社交人格。</p>
         <button class="btn" onclick="startQuiz()">開始偵測狀態</button>
     </div>
 
-    <!-- 2. 測驗頁面 -->
     <div id="quiz-page">
-        <div class="progress-container">
-            <div class="progress-bar" id="progress"></div>
-        </div>
+        <div class="progress-container"><div class="progress-bar" id="progress"></div></div>
         <div class="question-num" id="q-num">QUESTION 01</div>
         <div class="question-text" id="q-text">載入中...</div>
         <div class="options">
@@ -303,117 +67,60 @@
         </div>
     </div>
 
-    <!-- 3. 結果頁面 -->
     <div id="result-page">
-        <!-- 會被截圖的區域 -->
         <div class="result-card" id="capture-area">
             <div class="result-tag">MY SHADOW TYPE</div>
-            
-            <!-- 人格專屬小圖示 -->
             <span class="result-icon" id="res-icon">👾</span>
             <div class="result-title" id="res-title">偵測中...</div>
-            
-            <!-- 全網比例顯示 -->
             <div class="result-percentage">全網目前有 <strong id="res-percent">0%</strong> 的人跟你一樣發瘋</div>
-            
             <div class="tags-container" id="res-tags"></div>
-            
-            <!-- 整理後的條列式排版 -->
             <div class="result-desc">
-                <div class="desc-section">
-                    <span class="desc-label">💡 潛意識面貌</span>
-                    <span id="desc-core"></span>
-                </div>
-                <div class="desc-section">
-                    <span class="desc-label">💥 脆上發作症狀</span>
-                    <span id="desc-symptom"></span>
-                </div>
+                <div class="desc-section"><span class="desc-label">💡 潛意識面貌</span><span id="desc-core"></span></div>
+                <div class="desc-section"><span class="desc-label">💥 脆上發作症狀</span><span id="desc-symptom"></span></div>
             </div>
-            
             <div class="match-box">
                 <div class="match-item">🤝 大吉契合：<span id="res-good">-</span></div>
                 <div class="match-item">⚡ 天敵死對頭：<span id="res-bad">-</span></div>
             </div>
             <div class="watermark">⚠️ 警語：請立刻關掉手機去摸摸草</div>
         </div>
-
-        <!-- 按鈕區 -->
         <div class="action-btns">
             <button class="btn btn-secondary" onclick="restartQuiz()">再測一次</button>
-            <button class="btn" onclick="saveAsImage()">儲存結果截圖</button>
+            <button class="btn" onclick="saveAsImageAndRedirect()">儲存結果截圖</button>
         </div>
     </div>
 </div>
 
 <script>
-    // 12題庫數據結構
     const questions = [
         { type: "T", aScore: "Ti", bScore: "Te", text: "在脆上滑到沒做功課、上網查就有答案的「伸手黨」提問，你直覺是？", aText: "有夠躁，直接在心中翻白眼或開噴，覺得對方沒長腦。", bText: "雖然很瞎，但還是會點開留言區看有沒有人開打，順便吃瓜。" },
         { type: "T", aScore: "Ti", bScore: "Te", text: "當網路上爆出某個大網紅的翻車大瓜，但證據還很不完整時，你會？", aText: "搬出鍵盤柯南精神，瘋狂交叉比對時間軸和漏洞看穿真相。", bText: "管他真的假的，先跟著大家在留言區卡一個哈密瓜轉發再說。" },
         { type: "T", aScore: "Ti", bScore: "Te", text: "朋友找你抱怨工作遇到了超級大爛人，你的安慰風格通常是？", aText: "保持理性，幫他分析那個爛人的心理，並幫忙想下一步對策。", bText: "站在他那邊，陪他一起瘋狂痛罵對方，發洩完情緒再說。" },
-        
         { type: "F", aScore: "Fe", bScore: "Fi", text: "當你在群組講了一個自認好笑的梗，結果「完全沒人回、被無情洗貼圖」，你會？", aText: "表面裝沒事，但內心開始焦慮大家是不是在排擠我，默默想收回。", bText: "覺得是這群人不懂幽默，反正我自己覺得好笑就好。" },
         { type: "F", aScore: "Fi", bScore: "Fe", text: "好朋友突然退你追蹤，被你發現了，你的內心小劇場是？", aText: "算了啦，反正每個人階段不同，搞不好只是按錯或合不來。", bText: "天崩地裂，開始瘋狂回想最近是不是講錯話，陷入人際內耗。" },
         { type: "F", aScore: "Fe", bScore: "Fi", text: "看到大家都在轉發某個正能量語錄，或是集體為某件事感動落淚時，你通常？", aText: "覺得有點溫馨，也會想跟著點讚或轉發分享這份正能量。", bText: "內心毫無波動，甚至覺得這群人集體自我感動到有點矯情。" },
-        
         { type: "S", aScore: "Si", bScore: "Se", text: "看到網路上爆合的某個熱門景點、或是排隊排到爆的潮流公仔，你的反應是？", aText: "大家都去衝，這有什麼好稀奇的？反而故意不想去了解。", bText: "看看大家都在瘋什麼，搞不好很有趣，會想點進去或跟著買買看。" },
         { type: "S", aScore: "Se", bScore: "Si", text: "半夜突然失眠，在床上翻來覆去的時候，你通常都在想什麼？", aText: "沒想什麼，純粹點開各種沒營養的短影音或脆，滑到眼睛酸。", bText: "開始回想國中時期的黑歷史，或者焦慮五年後的自己會在哪裡。" },
         { type: "S", aScore: "Se", bScore: "Si", text: "關於生活或工作的「大方向改變」（例如換工作、搬家），你更符合哪種？", aText: "遇到機會就先衝了再說，計畫趕不上變化，船到橋頭自然直。", bText: "必須做好全面的心理準備和儲蓄計畫，不然會極度沒有安全感。" },
-        
         { type: "N", aScore: "Ni", bScore: "Ne", text: "突然被主管或老師在工作群組單獨 @ (艾特)，你的第一直覺是？", aText: "慘了，我是不是做錯什麼事？大腦自動腦補出各種最壞狀況。", bText: "煩死了又有什麼事？手頭的事情先做完，等一下再點開。" },
         { type: "N", aScore: "Ne", bScore: "Ni", text: "你平常使用手機、滑社群的真實狀態更接近哪一種？", aText: "注意力很難集中，同時開好幾個視窗或 App 換來換去，但都沒看完。", bText: "看到有興趣的主題就會瘋狂往下挖，不知不覺看完整個八卦懶人包。" },
         { type: "N", aScore: "Ne", bScore: "Ni", text: "看到別人發了一篇語氣很酸、但沒有指名道姓的「黑名單抱怨文」，你會？", aText: "覺得跟自己無關，純粹當成別人的生活碎念，看過就忘。", bText: "開始對號入座，懷疑對方是不是在暗諷自己，或瘋狂猜測他在罵誰。" }
     ];
 
     const results = {
-        "Ti_Ni": {
-            title: "網路偏執槓精", icon: "🤖",
-            tags: ["#解字代表", "#邏輯糾察隊", "#內心翻白眼達人"],
-            core: "在社群上自帶高傲的清高感。看到錯字、沒邏輯的言論、或是盲目跟風的潮流會極度煩躁。你不是不社交，你是覺得網路上 80% 的人都需要回國小重修。",
-            symptom: "滑到熱門貼文不自覺想去糾正別人；或者打了一大串反駁文，最後覺得「算了跟笨蛋講不通」又默默整串刪掉。",
-            good: "社群冷漠巨嬰（他不帶腦，你剛好幫他精準分析）", bad: "伸手黨、錯字連篇還爆紅的網美",
-            basePercent: 8 // 基本底標 % 數
-        },
-        "Fe_Se": {
-            title: "社群冷漠巨嬰", icon: "🤡",
-            tags: ["#已讀亂回", "#吃瓜第一線", "#跟風大師"],
-            core: "表面隨和好相點讚，內心極度懶惰敷衍。你很需要群體認同，但又不想付出太多真心。在網路上看大家吵架會覺得「好爽、多打一點」，是標準的樂子人。",
-            symptom: "沒有自己的立場，風向往哪吹你就往哪倒。其實很在乎讚數，如果發文沒人理會偷偷難過，再強顏歡笑安慰自己「沒差反正脆本來就沒流量」。",
-            good: "網路偏執槓精（看他認真跟笨蛋吵架，你覺得很好玩）", bad: "逼你表態立場的極端正義魔人",
-            basePercent: 42
-        },
-        "Fi_Si": {
-            title: "孤傲自嗨邊緣人", icon: "🖤",
-            tags: ["#小眾冷門控", "#小帳限定", "#深夜限定emo"],
-            core: "深度活在自己的精神世界裡，自帶一種「沒有人真正懂我」的敏感文青病。別人的一句無心評論或少個貼圖，可以讓你半夜在床上反芻三個小時。",
-            symptom: "習慣發一些只有自己看得懂的密碼學貼文（例如一個點或一句歌詞）。一旦貼文不小心太多人按讚反而會驚慌，覺得自己的秘密基地被笨蛋入侵了。",
-            good: "網路偏執槓精（你半夜發emo文，他會用殘酷邏輯打醒你）", bad: "講話太大聲、沒邊界感、一熟起來就亂開玩笑的社牛",
-            basePercent: 14
-        },
-        "Ne_Ni": {
-            title: "深淵腦補內耗體", icon: "🌪️",
-            tags: ["#資訊焦慮症", "#陰謀論大師", "#注意力剩3秒"],
-            core: "大腦是一台24小時不關機的瘋狂發電機。習慣看到黑影就開槍，朋友限動少發一個常用的貼圖，你就能在腦中擴寫出一場背叛恩怨大戲。",
-            symptom: "瘋狂刷脆深怕漏掉任何一個大瓜。看到別人發不指名抱怨文，會光速對號入座「他是不是在影射我？」每天被自己的超能力想像力嚇到精神衰弱。",
-            good: "網路偏執槓精（他會直接告訴你：你想太多了，洗洗睡吧）", bad: "講話講一半、發文愛搞神秘留伏筆的斷章取義狂",
-            basePercent: 28
-        }
+        "Ti_Ni": { title: "網路偏執槓精", icon: "🤖", tags: ["#解字代表", "#邏輯糾察隊"], core: "高傲清高，覺得網路上 80% 的人都需要回國小重修。", symptom: "愛糾正別人錯字，最後又默默刪掉。", good: "冷漠巨嬰", bad: "伸手黨", basePercent: 8 },
+        "Fe_Se": { title: "社群冷漠巨嬰", icon: "🤡", tags: ["#已讀亂回", "#吃瓜第一線"], core: "隨和好點讚，內心極度懶惰，標準樂子人。", symptom: "沒有立場，風向往哪吹你就往哪倒。", good: "偏執槓精", bad: "正義魔人", basePercent: 42 },
+        "Fi_Si": { title: "孤傲自嗨邊緣人", icon: "🖤", tags: ["#小眾冷門控", "#小帳限定"], core: "活在自己世界，對別人的無心評論極度敏感。", symptom: "發一些只有自己看得懂的密碼文。", good: "偏執槓精", bad: "沒邊界感社牛", basePercent: 14 },
+        "Ne_Ni": { title: "深淵腦補內耗體", icon: "🌪️", tags: ["#資訊焦慮症", "#陰謀論大師"], core: "大腦 24 小時不關機，習慣看到黑影就開槍。", symptom: "瘋狂刷脆，每天懷疑別人影射自己。", good: "偏執槓精", bad: "斷章取義狂", basePercent: 28 }
     };
 
+    const SHOPEE_LINK = "https://s.shopee.tw/8V6bOlaro8";
     let currentQuestion = 0;
     let userScores = { Ti: 0, Te: 0, Fi: 0, Fe: 0, Si: 0, Se: 0, Ni: 0, Ne: 0 };
 
-    function startQuiz() {
-        document.getElementById("start-page").style.display = "none";
-        document.getElementById("quiz-page").style.display = "block";
-        showQuestion();
-    }
-
+    function startQuiz() { document.getElementById("start-page").style.display = "none"; document.getElementById("quiz-page").style.display = "block"; showQuestion(); }
     function showQuestion() {
-        if (currentQuestion >= questions.length) {
-            calculateResult();
-            return;
-        }
+        if (currentQuestion >= questions.length) { calculateResult(); return; }
         const q = questions[currentQuestion];
         document.getElementById("progress").style.width = ((currentQuestion / questions.length) * 100) + "%";
         document.getElementById("q-num").innerText = `QUESTION ${String(currentQuestion + 1).padStart(2, '0')}`;
@@ -421,70 +128,39 @@
         document.getElementById("opt-A").innerText = q.aText;
         document.getElementById("opt-B").innerText = q.bText;
     }
-
     function selectOption(choice) {
         const q = questions[currentQuestion];
         if (choice === 'A') { userScores[q.aScore]++; } else { userScores[q.bScore]++; }
-        currentQuestion++;
-        showQuestion();
+        currentQuestion++; showQuestion();
     }
-
     function calculateResult() {
-        document.getElementById("quiz-page").style.display = "none";
-        document.getElementById("result-page").style.display = "block";
-
-        let resultKey = "Fe_Se"; 
-        let rawWeight = userScores.Fe + userScores.Se;
-
-        if (userScores.Ti + userScores.Ni > userScores.Te + userScores.Ne) {
-            resultKey = "Ti_Ni";
-            rawWeight = userScores.Ti + userScores.Ni;
-        } else if (userScores.Fi + userScores.Si > userScores.Fe + userScores.Se) {
-            resultKey = "Fi_Si";
-            rawWeight = userScores.Fi + userScores.Si;
-        } else if (userScores.Ne + userScores.Ni > 4) {
-            resultKey = "Ne_Ni";
-            rawWeight = userScores.Ne + userScores.Ni;
-        }
-
-        const res = results[resultKey] || results["Fe_Se"];
-
-        // 動態浮動百分比公式（基礎分 + 剩餘題目的隨機微調，既有邏輯又保證獨特性）
-        const finalPercent = res.basePercent + (rawWeight % 3) + Math.floor(Math.random() * 3);
-
+        document.getElementById("quiz-page").style.display = "none"; document.getElementById("result-page").style.display = "block";
+        let resultKey = "Fe_Se"; let rawWeight = userScores.Fe + userScores.Se;
+        if (userScores.Ti + userScores.Ni > userScores.Te + userScores.Ne) { resultKey = "Ti_Ni"; rawWeight = userScores.Ti + userScores.Ni; }
+        else if (userScores.Fi + userScores.Si > userScores.Fe + userScores.Se) { resultKey = "Fi_Si"; rawWeight = userScores.Fi + userScores.Si; }
+        else if (userScores.Ne + userScores.Ni > 4) { resultKey = "Ne_Ni"; rawWeight = userScores.Ne + userScores.Ni; }
+        const res = results[resultKey];
         document.getElementById("res-icon").innerText = res.icon;
         document.getElementById("res-title").innerText = `【${res.title}】`;
-        document.getElementById("res-percent").innerText = `${finalPercent}%`;
+        document.getElementById("res-percent").innerText = `${res.basePercent + (rawWeight % 3) + Math.floor(Math.random() * 3)}%`;
         document.getElementById("desc-core").innerText = res.core;
         document.getElementById("desc-symptom").innerText = res.symptom;
         document.getElementById("res-good").innerText = res.good;
         document.getElementById("res-bad").innerText = res.bad;
-
         const tagsContainer = document.getElementById("res-tags");
         tagsContainer.innerHTML = "";
-        res.tags.forEach(t => {
-            const span = document.createElement("span");
-            span.className = "tag";
-            span.innerText = t;
-            tagsContainer.appendChild(span);
-        });
+        res.tags.forEach(t => { const span = document.createElement("span"); span.className = "tag"; span.innerText = t; tagsContainer.appendChild(span); });
     }
-
-    function restartQuiz() {
-        currentQuestion = 0;
-        userScores = { Ti: 0, Te: 0, Fi: 0, Fe: 0, Si: 0, Se: 0, Ni: 0, Ne: 0 };
-        document.getElementById("result-page").style.display = "none";
-        document.getElementById("start-page").style.display = "block";
-    }
-
-    function saveAsImage() {
-        const target = document.getElementById("capture-area");
-        html2canvas(target, { backgroundColor: "#141414", scale: 2 }).then(canvas => {
+    function restartQuiz() { currentQuestion = 0; userScores = { Ti: 0, Te: 0, Fi: 0, Fe: 0, Si: 0, Se: 0, Ni: 0, Ne: 0 }; document.getElementById("result-page").style.display = "none"; document.getElementById("start-page").style.display = "block"; }
+    
+    function saveAsImageAndRedirect() {
+        html2canvas(document.getElementById("capture-area"), { backgroundColor: "#141414", scale: 2 }).then(canvas => {
             const link = document.createElement("a");
-            link.download = `社群陰暗面_${document.getElementById("res-title").innerText}.png`;
+            link.download = `社群陰暗面_結果.png`;
             link.href = canvas.toDataURL("image/png");
             link.click();
         });
+        window.open(SHOPEE_LINK, "_blank");
     }
 </script>
 </body>
